@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+canvas{
+    border: 1px solid black;
+}
+label, input {
+    font-family: 'Roboto';
+    font-size: 20px;
+    font-weight: bold;
+    padding:7px;
+}
+#inputWrapper{
+    display:flex;
+    flex-direction: column;
+}
