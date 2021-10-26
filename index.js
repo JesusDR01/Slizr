@@ -22,8 +22,9 @@ const game = () => {
     var context = myCanvas.getContext("2d");
 
     var rect = drawMenu();
-
+    let logoRotating = rotateImg(drawRotated);
     myCanvas.addEventListener("click", (evt) => {
+        clearInterval(logoRotating);
         var [
             INITIAL_HEALTH,
             CIRCLE_RADIUS,
@@ -47,7 +48,6 @@ const game = () => {
         }
         function animate() {
             context.clearRect(0, 0, myCanvas.clientWidth, myCanvas.clientHeight);
-
             redCircle.update(getRandomInt(MIN_SPEED, MAX_SPEED));
             redCircle = spawnCircle(redCircle);
             score = punishPlayer(redCircle, score);
@@ -194,13 +194,40 @@ const game = () => {
     }
 
     function drawMenu() {
+        
         let img = getImg();
         img.logoPosX = 0;
         img.logoPosY = 160;
         img.addEventListener("load", drawLogo);
         img.addEventListener("load", drawHeader);
+        
         var playBtn = drawPlayBtn("Play");
+       
         return playBtn;
+    }
+    function drawRotated(degrees){
+        context.clearRect(10,180,630,460);
+    
+        // save the unrotated context of the canvas so we can restore it later
+        // the alternative is to untranslate & unrotate after drawing
+        context.save();
+    
+        // move to the center of the canvas
+        context.translate(myCanvas.width/2,myCanvas.height/2);
+    
+        // rotate the canvas to the specified degrees
+        context.rotate(-degrees*Math.PI/180);
+    
+        // draw the image
+        // since the context is rotated, the image will be rotated also
+        let img = getImg();
+        img.logoPosX = 0;
+        img.logoPosY = 140;
+        // context.drawImage(img, this.logoPosX, this.logoPosY);
+        context.drawImage(img,-160,-70,300,300);
+    
+        // we’re done with the rotating so restore the unrotated context
+        context.restore();
     }
 
     function drawPlayBtn(
@@ -320,6 +347,14 @@ const game = () => {
 };
 
 window.addEventListener("DOMContentLoaded", game);
+
+function rotateImg(drawRotated) {
+    let i = 0;
+    let interval = setInterval(() => {
+        drawRotated(i++);
+    }, 10);
+    return interval;
+}
 
 function setDefaultInputValues(defaultValues) {
     const [
