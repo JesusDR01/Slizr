@@ -214,6 +214,7 @@ const game = () => {
     
         // move to the center of the canvas
         context.translate(myCanvas.width/2,myCanvas.height/2);
+        // context.translate(300,300);
     
         // rotate the canvas to the specified degrees
         context.rotate(-degrees*Math.PI/180);
@@ -224,8 +225,8 @@ const game = () => {
         img.logoPosX = 0;
         img.logoPosY = 140;
         // context.drawImage(img, this.logoPosX, this.logoPosY);
+        context.translate(-10,-90);
         context.drawImage(img,-160,-70,300,300);
-    
         // we’re done with the rotating so restore the unrotated context
         context.restore();
     }
